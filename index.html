@@ -154,7 +154,7 @@
         .search-item { padding: 12px 15px; border-bottom: 1px solid var(--glass-border); cursor: pointer; }
         .search-item:hover { background: rgba(147, 51, 234, 0.2); }
         .test-top { display: flex; justify-content: space-between; background: var(--glass-bg); padding: 12px 15px; border-radius: 12px; margin-bottom: 20px; align-items:center;}
-        .opt-item { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 15px; border-radius: 12px; display: flex; gap: 15px; cursor: pointer; margin-bottom:12px; }
+        .opt-item { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 15px; border-radius: 12px; display: flex; gap: 15px; cursor: pointer; margin-bottom:12px; transition: 0.2s;}
         .opt-item.selected { background: rgba(147, 51, 234, 0.2); border-color: #9333ea; }
         .loader-spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: #9333ea; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -174,7 +174,6 @@
 
 <div class="bg-shape shape1"></div><div class="bg-shape shape2"></div>
 
-<!-- IN-APP NOTIFICATION TOAST -->
 <div id="toast-notification" style="position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: rgba(30, 41, 59, 0.95); border: 1px solid var(--accent); color: white; padding: 12px 20px; border-radius: 30px; z-index: 9999; display: flex; align-items: center; gap: 12px; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); min-width: 280px; max-width: 90vw; cursor: pointer;">
     <span id="toast-icon" class="material-symbols-rounded" style="color: var(--success); font-size: 2rem;">mark_chat_unread</span>
     <div style="display: flex; flex-direction: column; overflow: hidden;">
@@ -191,7 +190,6 @@
     </div>
 </div>
 
-<!-- BLOCKED USERS MODAL -->
 <div id="blocked-users-modal" class="modal-overlay">
     <div class="modal-box" style="max-height: 80vh; display:flex; flex-direction:column;">
         <h3 style="color:white; margin-bottom:15px; display:flex; align-items:center; justify-content:center; gap:8px;">
@@ -202,7 +200,6 @@
     </div>
 </div>
 
-<!-- APP DRAWER (SIDEBAR) -->
 <div class="app-drawer-overlay" id="drawer-overlay" onclick="toggleAppMenu(false)"></div>
 <div class="app-drawer" id="app-drawer">
     <div class="drawer-header">
@@ -253,7 +250,6 @@
 
     <div id="loader-screen" class="screen active" style="text-align: center; margin-top: 50px;"><div class="loader-spinner"></div><h2 id="loader-text">Loading...</h2></div>
 
-    <!-- Login -->
     <div id="auth-screen" class="screen">
         <h2 id="auth-title">Login Required</h2><p class="subtitle" id="auth-subtitle">Please login to continue</p>
         <input type="text" id="auth-email" class="modern-input" placeholder="Email or Username (@id)">
@@ -271,7 +267,6 @@
         <button class="btn btn-outline" style="margin-top:10px;" onclick="goBack()">Back to Login</button>
     </div>
 
-    <!-- Onboarding -->
     <div id="onboarding-screen" class="screen">
         <h2>Complete Profile</h2><p class="subtitle">Tell us about yourself</p>
         <label style="color:var(--text-muted); font-size:0.9rem; display:block; text-align:center; margin-bottom:5px;">Select Avatar</label>
@@ -289,14 +284,12 @@
         <button class="btn" onclick="saveOnboarding()">Save & Start 🚀</button>
     </div>
 
-    <!-- ANNOUNCEMENT SCREEN -->
     <div id="announcement-screen" class="screen">
         <h2>📢 Notice Board</h2>
         <p class="subtitle">Latest updates from Admin</p>
         <div id="announcement-list"></div>
     </div>
 
-    <!-- PROFILE SCREEN -->
     <div id="profile-screen" class="screen">
         <div class="profile-avatar" id="prof-avatar-display">👨‍🎓</div>
         <h2 id="prof-name-display" style="margin-bottom:2px;">User Name</h2>
@@ -307,7 +300,6 @@
         <button class="btn-outline" style="border-color:var(--danger); color:var(--danger);" onclick="logoutUser()">Logout 🚪</button>
     </div>
 
-    <!-- SETTINGS SCREEN -->
     <div id="settings-screen" class="screen">
         <h2>Settings</h2>
         <h3 style="font-size:1.1rem; margin-top:10px; margin-bottom:15px;">Edit Profile</h3>
@@ -336,7 +328,6 @@
         <button class="btn" id="set-save-btn" style="display:none; margin-top:20px;" onclick="saveSettings()">Save Changes</button>
     </div>
 
-    <!-- Dashboard -->
     <div id="home-dashboard" class="screen">
         <div class="greeting-box">
             <div><h2 style="text-align:left; margin-bottom:2px;" id="home-greeting">Hello! 👋</h2><div style="font-size:0.85rem; color:var(--text-muted);">Ready to learn today?</div></div>
@@ -362,7 +353,6 @@
         <div style="display:flex; gap:10px;"><button class="btn" style="flex:2; margin-bottom:0;" onclick="switchTab('test')">Take a Test 🚀</button><button class="btn btn-outline" style="flex:1; border-color:var(--danger); color:var(--danger); margin-bottom:0;" onclick="resetStats()">Reset 🗑️</button></div>
     </div>
 
-    <!-- Leaderboard -->
     <div id="rank-screen" class="screen">
         <h2>🏆 Student Leaderboard</h2>
         <p class="subtitle">Tap any student to view profile & chat</p>
@@ -380,7 +370,6 @@
         </div>
     </div>
 
-    <!-- Chat List -->
     <div id="chat-screen" class="screen">
         <h2>💬 Student Chat</h2>
         <p class="subtitle">Search students by Name or @Username</p>
@@ -389,7 +378,6 @@
         <div id="chat-users-list"></div>
     </div>
 
-    <!-- FULLSCREEN CHAT VIEW -->
     <div id="active-chat-screen" class="screen">
         <div class="chat-header-bar">
             <div style="display:flex; align-items:center; gap:10px; flex:1;">
@@ -418,7 +406,6 @@
         </div>
     </div>
 
-    <!-- TEST SCREENS -->
     <div id="test-courses" class="screen">
         <h2>Select Exam Course</h2>
         <input type="text" id="test-course-filter" class="modern-input" placeholder="🔍 Search Exam..." onkeyup="filterTestTabCourses()">
@@ -449,6 +436,7 @@
         <button class="btn" onclick="startTest()">Start Test 🚀</button>
     </div>
 
+    <!-- 🔥 TEST ACTIVE SCREEN WITH UNIFORM BUTTONS -->
     <div id="test-active" class="screen">
         <div class="test-top">
             <div>Q: <span id="current-q">1</span>/<span id="total-q">10</span></div>
@@ -456,10 +444,11 @@
         </div>
         <div style="font-size:1.3rem; margin-bottom:20px; font-weight:500;" id="q-display"></div><div id="opt-display"></div>
         
+        <!-- Uniform Design for Action Buttons -->
         <div style="display:flex; gap:10px; margin-top:20px; align-items:center;">
-            <button class="btn-secondary" style="flex:1; margin-bottom:0;" id="prev-btn" onclick="prevQ()">Prev</button>
-            <button class="btn-danger-solid" style="flex:1; margin-bottom:0;" id="quit-btn" onclick="quitTest()">Quit</button>
-            <button class="btn" style="flex:1; margin-bottom:0;" id="next-btn" onclick="nextQ()">Next</button>
+            <button class="btn-secondary" style="flex:1; margin-bottom:0; padding:14px;" id="prev-btn" onclick="prevQ()">Prev</button>
+            <button class="btn-danger-solid" style="flex:1; margin-bottom:0; padding:14px;" id="quit-btn" onclick="quitTest()">Quit</button>
+            <button class="btn" style="flex:1; margin-bottom:0; padding:14px;" id="next-btn" onclick="nextQ()">Next</button>
         </div>
     </div>
     
@@ -493,6 +482,16 @@
 <script>
     const ADMIN_EMAIL = "rupeshkumar786831@gmail.com";
 
+    // 🔥 NEW: ANTI-CHEAT BACKGROUND DETECTOR
+    document.addEventListener("visibilitychange", function() {
+        if (document.hidden && currentScreenId === 'test-active') {
+            submitTst(); // Auto-submit immediately
+            setTimeout(() => {
+                customAlert("Test Cancelled 🚫", "Cheating Alert! You minimized the app or switched tabs during a live test. Your test has been auto-submitted.");
+            }, 600);
+        }
+    });
+
     function formatDateTime(ts) {
         if (!ts) {
             let date = new Date(); 
@@ -510,7 +509,6 @@
     document.addEventListener('gesturestart', e => e.preventDefault());
 
     let currentScreenId = 'loader-screen';
-    
     history.replaceState({ screen: 'loader-screen' }, '');
 
     function switchScreen(id, fromHistory = false) {
@@ -1024,7 +1022,6 @@
         });
     }
 
-    // 🔥 FIX: Async Chunk Loader Implementation in App
     async function fetchSecureDatabase() {
         try {
             document.getElementById('loader-screen').classList.add('active');
@@ -1638,36 +1635,6 @@
     }
 
     let typingTimeout = null;
-    function toggleBlockUser() {
-        if(!currentChatUserId) return;
-        
-        let blocked = [];
-        if (userData.blockedUsers && Array.isArray(userData.blockedUsers)) {
-            blocked = [...userData.blockedUsers];
-        }
-        
-        let isBlocked = blocked.includes(currentChatUserId);
-
-        if(isBlocked) {
-            blocked = blocked.filter(id => id !== currentChatUserId);
-        } else {
-            blocked.push(currentChatUserId);
-        }
-
-        document.getElementById('block-btn').innerText = "...";
-        
-        firestore.collection("users").doc(currentUser.uid).set({ blockedUsers: blocked }, { merge: true })
-        .then(() => {
-            userData.blockedUsers = blocked;
-            checkBlockStatus(); 
-            customAlert("Success", isBlocked ? "User Unblocked successfully." : "User Blocked successfully.");
-        })
-        .catch(err => {
-            customAlert("Error", "Could not update block status: " + err.message);
-            checkBlockStatus(); 
-        });
-    }
-
     document.getElementById('chatMsgInput').addEventListener('input', function() {
         if(!currentChatId || !currentChatUserId) return;
         
@@ -1785,7 +1752,7 @@
         }
     }
 
-    // ================= TEST ENGINE (WITH DRAFTS) =================
+    // ================= TEST ENGINE (WITH DRAFTS & ANTI-CHEAT) =================
     let currentDraftIndex = -1;
 
     function renderTestCourses() {
@@ -1917,12 +1884,22 @@
         timeRem--; let m = Math.floor(timeRem/60); let s = timeRem%60; setSafeText('time-display', (m<10?'0'+m:m)+":"+(s<10?'0'+s:s));
     }
 
+    // 🔥 FIX: 1-Time Select Logic (Disables clicking again after selection)
     function loadQ() {
         let q = questions[qIndex]; setSafeText('current-q', qIndex + 1); setSafeText('q-display', q.q);
         let optDiv = document.getElementById('opt-display'); 
         if(optDiv) {
             optDiv.innerHTML = '';
-            q.options.forEach((opt, i) => { optDiv.innerHTML += `<div class="opt-item ${answers[qIndex] === i ? 'selected' : ''}" onclick="selOpt(${i})"><div style="width:25px;height:25px;background:rgba(255,255,255,0.1);border-radius:50%;text-align:center;">${['A','B','C','D'][i]}</div><div>${opt}</div></div>`; });
+            
+            let isAnswered = (answers[qIndex] !== null && answers[qIndex] !== undefined);
+            
+            q.options.forEach((opt, i) => { 
+                let isSel = (answers[qIndex] === i);
+                let clickFn = isAnswered ? `onclick="customAlert('Locked 🔒', 'You cannot change your answer once selected.')"` : `onclick="selOpt(${i})"`;
+                let opStyle = (isAnswered && !isSel) ? 'opacity:0.6;' : 'opacity:1;';
+                
+                optDiv.innerHTML += `<div class="opt-item ${isSel ? 'selected' : ''}" ${clickFn} style="${opStyle}"><div style="width:25px;height:25px;background:rgba(255,255,255,0.1);border-radius:50%;text-align:center;flex-shrink:0;">${['A','B','C','D'][i]}</div><div>${opt}</div></div>`; 
+            });
         }
         let prevBtn = document.getElementById('prev-btn'); if(prevBtn) prevBtn.disabled = (qIndex === 0);
         let nxtBtn = document.getElementById('next-btn');
@@ -1939,7 +1916,9 @@
         }
     }
 
-    function selOpt(i) { answers[qIndex] = i; loadQ(); } function prevQ() { if(qIndex > 0) { qIndex--; loadQ(); } } function nextQ() { if(qIndex < questions.length - 1) { qIndex++; loadQ(); } else { submitTst(); } }
+    function selOpt(i) { answers[qIndex] = i; loadQ(); } 
+    function prevQ() { if(qIndex > 0) { qIndex--; loadQ(); } } 
+    function nextQ() { if(qIndex < questions.length - 1) { qIndex++; loadQ(); } else { submitTst(); } }
     
     function submitTst() {
         clearInterval(timer);
