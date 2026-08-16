@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- Viewport will be controlled dynamically by JS for Desktop/Mobile mode -->
+    <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>StellarPrep - Secure App</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -41,7 +42,6 @@
         .header-btn:active { transform: scale(0.9); }
         .header-btn .material-symbols-rounded { font-size: 1.5rem; color: var(--text-main); }
         
-        /* APP DRAWER */
         .app-drawer-overlay { position: fixed; top:0; left:0; width:100vw; height:100vh; background: rgba(0,0,0,0.7); z-index: 4000; display:none; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px); }
         .app-drawer-overlay.open { display: block; opacity: 1; }
         .app-drawer { position: fixed; top:0; left:-300px; width: 280px; max-width:80%; height:100vh; background: var(--bg-dark); border-right: 1px solid var(--glass-border); z-index: 4001; transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1); display:flex; flex-direction:column; box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
@@ -174,6 +174,7 @@
 
 <div class="bg-shape shape1"></div><div class="bg-shape shape2"></div>
 
+<!-- IN-APP NOTIFICATION TOAST -->
 <div id="toast-notification" style="position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: rgba(30, 41, 59, 0.95); border: 1px solid var(--accent); color: white; padding: 12px 20px; border-radius: 30px; z-index: 9999; display: flex; align-items: center; gap: 12px; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); min-width: 280px; max-width: 90vw; cursor: pointer;">
     <span id="toast-icon" class="material-symbols-rounded" style="color: var(--success); font-size: 2rem;">mark_chat_unread</span>
     <div style="display: flex; flex-direction: column; overflow: hidden;">
@@ -215,6 +216,15 @@
         <div class="drawer-item" onclick="openProfile()">
             <span class="material-symbols-rounded">manage_accounts</span> My Account
         </div>
+        
+        <!-- 🔥 DESKTOP MODE SETTING IN MENU -->
+        <div class="drawer-item" style="justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <span class="material-symbols-rounded">desktop_windows</span> Desktop Mode
+            </div>
+            <input type="checkbox" id="menu-desktop-mode" style="width:20px; height:20px; accent-color:var(--accent);" onchange="toggleDesktopMode(this.checked)">
+        </div>
+
         <div class="drawer-item" onclick="toggleAppMenu(false); customAlert('About StellarPrep', 'StellarPrep is an advanced, military-grade secure mock test and learning platform designed to help students conquer competitive exams.')">
             <span class="material-symbols-rounded">info</span> About App
         </div>
@@ -302,7 +312,15 @@
 
     <div id="settings-screen" class="screen">
         <h2>Settings</h2>
-        <h3 style="font-size:1.1rem; margin-top:10px; margin-bottom:15px;">Edit Profile</h3>
+        
+        <!-- 🔥 DESKTOP MODE SETTING -->
+        <h3 style="font-size:1.1rem; margin-top:10px; margin-bottom:15px;">Display Settings</h3>
+        <div class="setting-row" style="border-color:var(--accent);">
+            <div><strong style="color:var(--accent);">Desktop Mode (PC View) 🖥️</strong><small>Switch to wide horizontal view</small></div>
+            <input type="checkbox" id="set-desktop-mode" onchange="toggleDesktopMode(this.checked)">
+        </div>
+
+        <h3 style="font-size:1.1rem; margin-top:20px; margin-bottom:15px;">Edit Profile</h3>
         <div class="avatar-selector" id="set-avatars">
             <div class="avatar-option" onclick="selectAvatar('👨‍🎓', 'set')">👨‍🎓</div>
             <div class="avatar-option" onclick="selectAvatar('👩‍💻', 'set')">👩‍💻</div>
@@ -436,7 +454,6 @@
         <button class="btn" onclick="startTest()">Start Test 🚀</button>
     </div>
 
-    <!-- 🔥 TEST ACTIVE SCREEN WITH FULL FOCUS MODE -->
     <div id="test-active" class="screen" style="min-height: 100vh;">
         <div class="test-top">
             <div>Q: <span id="current-q">1</span>/<span id="total-q">10</span></div>
@@ -481,7 +498,26 @@
 <script>
     const ADMIN_EMAIL = "rupeshkumar786831@gmail.com";
 
-    // 🔥 ANTI-CHEAT: TAB SWITCH DETECTOR
+    // 🔥 DESKTOP MODE LOGIC
+    function applyViewport() {
+        let viewportMeta = document.getElementById('viewport-meta');
+        if (localStorage.getItem('stellar_desktop_mode') === 'true') {
+            viewportMeta.setAttribute('content', 'width=1150, user-scalable=yes, viewport-fit=cover');
+        } else {
+            viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+        }
+    }
+    applyViewport(); 
+
+    function toggleDesktopMode(isChecked) {
+        localStorage.setItem('stellar_desktop_mode', isChecked ? 'true' : 'false');
+        applyViewport();
+        customAlert("View Updated 🖥️", isChecked ? "Desktop Mode Activated! Screen is now wide like a PC." : "Mobile Mode Activated! Screen is normal.");
+        
+        document.getElementById('set-desktop-mode').checked = isChecked;
+        document.getElementById('menu-desktop-mode').checked = isChecked;
+    }
+
     function triggerAntiCheat() {
         if (currentScreenId === 'test-active') {
             submitTst(); 
@@ -513,7 +549,6 @@
     let currentScreenId = 'loader-screen';
     history.replaceState({ screen: 'loader-screen' }, '');
 
-    // 🔥 UI FOCUS MODE LOGIC: Hiding Headers and Bottom Navs
     function switchScreen(id, fromHistory = false) {
         if (currentScreenId === 'active-chat-screen' && id !== 'active-chat-screen') {
             if(chatUnsubscribe) chatUnsubscribe();
@@ -530,7 +565,6 @@
         const bottomNav = document.getElementById('bottom-nav-bar');
         const appContainer = document.querySelector('.app-container');
 
-        // 🔥 ENABLE DISTRACTION-FREE MODE FOR TESTS
         if (id === 'test-active') {
             if(headerEl) headerEl.style.display = 'none';
             if(bottomNav) bottomNav.style.display = 'none';
@@ -539,7 +573,6 @@
             if(headerEl) headerEl.style.display = 'flex';
             if(appContainer) appContainer.style.paddingBottom = '80px';
             
-            // Show bottom nav ONLY if user is logged in AND not on inner/fullscreen screens
             if (currentUser && !['auth-screen', 'loader-screen', 'onboarding-screen', 'forgot-screen', 'active-chat-screen'].includes(id)) {
                 if(bottomNav) bottomNav.style.display = 'flex';
             } else {
@@ -620,6 +653,7 @@
             drawer.classList.remove('open');
             setTimeout(() => overlay.classList.remove('open'), 300);
         } else {
+            document.getElementById('menu-desktop-mode').checked = (localStorage.getItem('stellar_desktop_mode') === 'true');
             overlay.classList.add('open');
             setTimeout(() => drawer.classList.add('open'), 10);
         }
@@ -939,6 +973,9 @@
         document.getElementById('set-priv').checked = !!userData.isPrivate;
         document.getElementById('set-dnd-global').checked = !!userData.dndGlobal;
         document.getElementById('set-dnd-test').checked = !!userData.dndTest;
+
+        // Sync Desktop Mode Checkbox
+        document.getElementById('set-desktop-mode').checked = (localStorage.getItem('stellar_desktop_mode') === 'true');
 
         document.getElementById('set-save-btn').style.display = 'none';
         switchScreen('settings-screen');
@@ -1789,6 +1826,9 @@
         }
     }
 
+    // ================= TEST ENGINE (WITH DRAFTS) =================
+    let currentDraftIndex = -1;
+
     function renderTestCourses() {
         const list = document.getElementById('test-courses-list'); if(!list) return; list.innerHTML = '';
         COURSE_LIST.forEach(c => {
@@ -1918,7 +1958,6 @@
         timeRem--; let m = Math.floor(timeRem/60); let s = timeRem%60; setSafeText('time-display', (m<10?'0'+m:m)+":"+(s<10?'0'+s:s));
     }
 
-    // 🔥 ANTI-CHEAT & 1-TIME SELECT LOGIC
     function loadQ() {
         let q = questions[qIndex]; setSafeText('current-q', qIndex + 1); setSafeText('q-display', q.q);
         let optDiv = document.getElementById('opt-display'); 
